@@ -1,0 +1,6 @@
+{
+  "terminal.integrated.env.osx": {
+    "PATH": "/Users/tomas.paronai/.platformio/penv/bin:/Users/tomas.paronai/.platformio/penv:/usr/local/opt/node@8/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/Users/tomas.paronai/Library/Android/sdk/platform-tools:/Users/tomas.paronai/Library/Android/sdk/tools:/Users/tomas.paronai/Library/Android/sdk/emulator:/Users/tomas.paronai/.fastlane/bin:/Users/tomas.paronai/.automation/bin:/Users/tomas.paronai/.executes/bin",
+    "PLATFORMIO_CALLER": "vscode"
+  }
+}
