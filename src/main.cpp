@@ -1,21 +1,16 @@
 #include <ESP8266WiFi.h>
 #include "DeviceResponse.h"
+#include "LightControls.h"
 
 // const char* ssid = "SmartHome";
 // const char* pass = "ReactN4t1v3";
 const char* ssid = "Parohy_ajfon";
 const char* pass = "asdfghjkl";
 
-
-
-const int SERVER = 0;
-const int DEVICE = 1;
-const int LED_ON = 2;
-const int LED_OFF = 3;
-
 IPAddress IP;
 
 WiFiServer server(80);
+LightControls lightControls(LED_BUILTIN);
 
 void printLocalIP() {
   IP = WiFi.localIP();
@@ -25,47 +20,18 @@ void printLocalIP() {
   Serial.println("/");
 }
 
-int indetifyRequest(String input) {
-  Serial.print("Indetifying: ");
-  Serial.println(input);
-
-  if (input.indexOf("/LED=ON") != -1) {
-    return LED_ON;
-  } 
-  
-  if (input.indexOf("/LED=OFF") != -1) {
-    return LED_OFF;
-  }
-
-  if (input.indexOf("/identify") != -1) {
-    return SERVER;
-  }
-
-  return DEVICE;
-}
-
 void handleType(WiFiClient client, int type) {
   printHeader(client);
-  switch (type) {
-    case LED_ON:
-      digitalWrite(LED_BUILTIN, LOW);
-      break;
-    case LED_OFF:
-      digitalWrite(LED_BUILTIN, HIGH);
-      break;
-    case SERVER:
-      printString(client, IP.toString());
-      return;
-    default:
-      Serial.print("Not defined to handle type: ");
-      Serial.println(type);
+  lightControls.handleType(type);
+  if (type == SERVER) {
+    printString(client, IP.toString());
+  } else {
+    printString(client, String(type));
   }
-  printString(client, String(type));
 }
 
 void setup() {
-  pinMode(LED_BUILTIN, OUTPUT); 
-  digitalWrite(LED_BUILTIN, HIGH);
+  lightControls.handleType(LED_OFF);
   Serial.begin(9600);
   
   delay(1000);
@@ -104,7 +70,7 @@ void loop() {
   // Read the first line of the request
   String request = client.readStringUntil('\r');
 
-  int type = indetifyRequest(request);
+  int type = lightControls.indetifyInput(request);
   client.flush();
 
   handleType(client, type);
