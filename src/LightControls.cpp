@@ -43,3 +43,14 @@ void LightControls::handleType(int type)
       Serial.println(type);
   }
 }
+
+void LightControls::blink(bool on, int speed)
+{
+  if(on)
+  {
+    digitalWrite(LED_BUILTIN, LOW);
+    delay(speed);
+    digitalWrite(LED_BUILTIN, HIGH);
+    delay(speed);
+  }
+}

@@ -14,8 +14,10 @@ class LightControls
     LightControls(int pin);
     void handleType(int type);
     int indetifyInput(String input);
+    void blink(bool on, int speed);
   private:
     int _pin;
+    bool _blink;
 };
 
 #endif
